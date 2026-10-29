@@ -1,0 +1,19 @@
+:host { display: block; background: #171d36; color: #d7d9e7; }
+.site-footer { width: min(1200px, calc(100% - 48px)); margin: auto; }
+.footer-main { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 38px; padding: 52px 0 42px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; text-decoration: none; }
+.brand strong { color: #aaa5ff; }
+.brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 11px; background: linear-gradient(140deg, #5369f3, #8b4fe9); }
+.footer-brand p { max-width: 220px; margin: 15px 0 0; color: #a9aec4; font-size: 13px; line-height: 1.7; }
+.footer-column { display: flex; align-items: flex-start; flex-direction: column; gap: 11px; }
+.footer-column h2 { margin: 0 0 5px; color: #fff; font-size: 13px; }
+.footer-column a, .footer-column span { color: #b7bbce; font-size: 12px; text-decoration: none; }
+.footer-column a:hover { color: #fff; }
+.footer-bottom { display: flex; justify-content: space-between; gap: 16px; padding: 19px 0 22px; border-top: 1px solid rgb(255 255 255 / 12%); color: #979db5; font-size: 11px; }
+@media (max-width: 700px) {
+  .site-footer { width: calc(100% - 40px); }
+  .footer-main { grid-template-columns: repeat(2, 1fr); gap: 32px 22px; padding: 40px 0 32px; }
+}
+@media (max-width: 420px) {
+  .footer-bottom { flex-direction: column; }
+}

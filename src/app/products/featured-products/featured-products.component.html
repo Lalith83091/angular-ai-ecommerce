@@ -1,0 +1,21 @@
+<section class="featured-section" aria-labelledby="featured-title">
+  <div class="section-top">
+    <div>
+      <p class="section-kicker">A few favorites</p>
+      <h2 id="featured-title">Made for your everyday</h2>
+    </div>
+    <a class="all-products-link" routerLink="/products">Browse all products <span aria-hidden="true">→</span></a>
+  </div>
+  @if (loading()) {
+    <p class="status-message" role="status">Loading featured products…</p>
+  } @else if (errorMessage()) {
+    <p class="status-message error-message" role="alert">{{ errorMessage() }}</p>
+  } @else {
+    <div class="product-grid">
+      @for (product of products(); track product.id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
+  <a class="load-more" routerLink="/products">Load More Products <span aria-hidden="true">→</span></a>
+</section>

@@ -1,0 +1,43 @@
+<section class="orders-page">
+  <p class="eyebrow">Your account</p>
+  <h1>My Orders</h1>
+
+  @if (loading()) {
+    <p class="status-message" role="status">Loading your order history…</p>
+  } @else if (errorMessage()) {
+    <div class="error-state" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button type="button" (click)="retry()">Try Again</button>
+    </div>
+  } @else if (orders().length) {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <article class="order-card">
+          <div class="order-heading">
+            <div>
+              <p class="order-id">Order {{ order.id }}</p>
+              <p class="order-date">Placed {{ order.createdAt | date:'mediumDate' }}</p>
+            </div>
+            <span class="status-pill">{{ order.status }}</span>
+          </div>
+          <ul>
+            @for (item of order.items; track item.productId) {
+              <li>
+                <span>{{ item.productName }} <small>× {{ item.quantity }}</small></span>
+                <strong>{{ item.lineTotal | currency:'USD' }}</strong>
+              </li>
+            }
+          </ul>
+          <p class="order-total"><span>Demo total</span><strong>{{ order.totalAmount | currency:'USD' }}</strong></p>
+        </article>
+      }
+    </div>
+    <p class="demo-note">Order totals use sample DummyJSON prices and are not payment or inventory records.</p>
+  } @else {
+    <div class="empty-state">
+      <h2>No orders yet</h2>
+      <p>Your placed demo orders will appear here.</p>
+      <a routerLink="/products">Browse products</a>
+    </div>
+  }
+</section>

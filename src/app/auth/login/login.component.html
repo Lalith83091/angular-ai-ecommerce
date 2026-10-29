@@ -1,0 +1,33 @@
+<section class="auth-page">
+  <div class="auth-card">
+    <a class="back-home" routerLink="/">← Angular AI</a>
+    <p class="eyebrow">Welcome back</p>
+    <h1>Log in to your account</h1>
+    <p class="intro">Sign in to pick up where you left off.</p>
+
+    @if (errorMessage()) {
+      <p class="form-message error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label for="login-email">Email address</label>
+      <input id="login-email" type="email" autocomplete="email" formControlName="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="field-error">Enter a valid email address.</small>
+      }
+
+      <label for="login-password">Password</label>
+      <input id="login-password" type="password" autocomplete="current-password" formControlName="password" />
+      @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <small class="field-error">Enter your password.</small>
+      }
+
+      <a class="forgot-link" routerLink="/forgot-password">Forgot password?</a>
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Logging in…' : 'Log In' }}
+      </button>
+    </form>
+
+    <p class="auth-switch">New to Angular AI? <a routerLink="/signup">Create an account</a></p>
+  </div>
+</section>

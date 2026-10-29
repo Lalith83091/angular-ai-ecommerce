@@ -1,0 +1,80 @@
+<section class="listing-page">
+  <header class="page-heading">
+    <p class="eyebrow">The Angular AI edit</p>
+    <h1>Find your next favorite</h1>
+    <p>Explore thoughtful essentials for your home, work, and everyday adventures.</p>
+  </header>
+
+  <div class="filter-bar" aria-label="Product filters">
+    <label class="search-field">
+      <span class="visually-hidden">Search products</span>
+      <span aria-hidden="true">⌕</span>
+      <input type="search" placeholder="Search products..." [value]="searchTerm()" (input)="updateSearch($event)" />
+    </label>
+    <label>
+      <span class="visually-hidden">Filter by category</span>
+      <select [value]="selectedCategory()" (change)="updateCategory($event)" [disabled]="categoriesLoading() || !!categoryError()">
+        <option value="">All categories</option>
+        @for (category of categories(); track category.slug) {
+          <option [value]="category.slug">{{ category.name }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      <span class="visually-hidden">Sort products by price</span>
+      <select [value]="priceOrder()" (change)="updatePriceOrder($event)">
+        <option value="featured">Featured</option>
+        <option value="low-high">Price: Low to High</option>
+        <option value="high-low">Price: High to Low</option>
+      </select>
+    </label>
+  </div>
+
+  @if (categoryError()) {
+    <p class="inline-error" role="status">Category filters are unavailable: {{ categoryError() }}</p>
+  }
+
+  <p class="result-count" aria-live="polite">
+    @if (loading() && !products().length) {
+      Loading products…
+    } @else {
+      Showing {{ products().length }} of {{ total() }} {{ total() === 1 ? 'product' : 'products' }}
+    }
+  </p>
+
+  @if (errorMessage() && !products().length) {
+    <div class="error-state" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button type="button" class="retry-button" (click)="retry()">Try Again</button>
+    </div>
+  } @else if (errorMessage()) {
+    <p class="inline-error" role="alert">
+      {{ errorMessage() }}
+      <button type="button" class="inline-retry" (click)="retry()">Retry loading more</button>
+    </p>
+  }
+
+  @if (products().length) {
+    <div class="product-grid">
+      @for (product of products(); track product.id; let index = $index) {
+        <app-product-card [product]="product" [priority]="index < 4" />
+      }
+    </div>
+    @if (loading()) {
+      <p class="loading-more" role="status">Loading more products…</p>
+    }
+    @if (products().length < total() && !errorMessage()) {
+      <button class="load-more" type="button" [disabled]="loading()" (click)="loadMore()">
+        {{ loading() ? 'Loading…' : 'Load More Products' }}
+      </button>
+    }
+  } @else if (!loading() && !errorMessage()) {
+    <div class="empty-state">
+      <span aria-hidden="true">⌕</span>
+      <h2>No products found</h2>
+      <p>Try another search or choose a different category.</p>
+    </div>
+  } @else if (loading()) {
+    <div class="loading-state" role="status">Loading products…</div>
+  }
+</section>

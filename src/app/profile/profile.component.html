@@ -1,0 +1,44 @@
+<section class="profile-page">
+  <p class="eyebrow">Your account</p>
+  <h1>Profile</h1>
+  <p class="intro">Manage the personal details used for your demo orders.</p>
+
+  @if (errorMessage()) {
+    <p class="form-message error" role="alert">{{ errorMessage() }}</p>
+  }
+  @if (actionError()) {
+    <p class="form-message error" role="alert">{{ actionError() }}</p>
+  }
+  @if (successMessage()) {
+    <p class="form-message success" role="status">{{ successMessage() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="status-message" role="status">Loading your profile…</p>
+  } @else if (profile(); as account) {
+    <div class="profile-card">
+      <div class="account-details">
+        <p><span>Email address</span><strong>{{ user()?.email }}</strong></p>
+        <p><span>Account created</span><strong>{{ account.createdAt | date:'mediumDate' }}</strong></p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+        <label for="profile-full-name">Full name</label>
+        <input id="profile-full-name" type="text" autocomplete="name" formControlName="fullName" />
+        @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+          <small class="field-error">Enter a name up to 80 characters.</small>
+        }
+        <button type="submit" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : 'Save Changes' }}
+        </button>
+      </form>
+
+      <div class="profile-actions">
+        <a routerLink="/orders">View My Orders</a>
+        <button type="button" class="logout-button" [disabled]="signingOut()" (click)="signOut()">
+          {{ signingOut() ? 'Logging out…' : 'Logout' }}
+        </button>
+      </div>
+    </div>
+  }
+</section>

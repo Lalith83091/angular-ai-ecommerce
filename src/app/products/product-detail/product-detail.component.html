@@ -1,0 +1,82 @@
+<section class="detail-page">
+  @if (loading()) {
+    <div class="loading-state" role="status">Loading product details…</div>
+  } @else if (product(); as item) {
+    <a class="back-link" routerLink="/products"><span aria-hidden="true">←</span> Back to Products</a>
+    <div class="detail-layout">
+      <div class="product-gallery">
+        <div class="detail-image">
+          <img appImageFallback [src]="item.images[selectedImage()] || item.image" [alt]="item.name" />
+        </div>
+        @if (item.images.length > 1) {
+          <div class="image-thumbnails" aria-label="Product images">
+            @for (image of item.images; track image; let index = $index) {
+              <button
+                type="button"
+                [class.selected]="selectedImage() === index"
+                [attr.aria-pressed]="selectedImage() === index"
+                [attr.aria-label]="'Show product image ' + (index + 1)"
+                (click)="selectImage(index)"
+              >
+                <img appImageFallback [src]="image" [alt]="item.name + ', image ' + (index + 1)" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+      <div class="detail-copy">
+        <p class="category">{{ item.category }}</p>
+        <h1>{{ item.name }}</h1>
+        @if (item.brand) {
+          <p class="brand">{{ item.brand }}</p>
+        }
+        <p class="rating"><span aria-hidden="true">★</span> {{ item.rating.toFixed(1) }} <span class="rating-label">customer rating</span></p>
+        <p class="price">{{ item.price | currency:'USD' }}</p>
+        <p class="description">{{ item.description }}</p>
+        @if (item.stock > 0) {
+          <p class="stock in-stock"><span aria-hidden="true">●</span> In stock — {{ item.stock }} available</p>
+          <div class="purchase-row">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" type="number" min="1" [max]="item.stock" [value]="quantity()" (change)="updateQuantity($event)" />
+            <button type="button" class="add-button" (click)="addToCart()">Add to Cart</button>
+          </div>
+          <p class="cart-message" aria-live="polite">{{ addedMessage() }}</p>
+        } @else {
+          <p class="stock out-of-stock">Currently out of stock</p>
+          <button type="button" class="add-button" disabled>Add to Cart</button>
+        }
+        <button
+          type="button"
+          class="wishlist-button"
+          [disabled]="savingToWishlist()"
+          [attr.aria-pressed]="isWishlisted(item.id)"
+          (click)="toggleWishlist()"
+        >
+          {{ savingToWishlist() ? 'Saving…' : isWishlisted(item.id) ? 'Remove from Wishlist' : 'Add to Wishlist' }}
+        </button>
+        @if (wishlistMessage()) {
+          <p class="cart-message" aria-live="polite">{{ wishlistMessage() }}</p>
+        }
+        @if (wishlistError()) {
+          <p class="action-error" role="alert">{{ wishlistError() }}</p>
+        }
+        @if (errorMessage() && !productNotFound()) {
+          <p class="action-error" role="alert">{{ errorMessage() }}</p>
+        }
+      </div>
+    </div>
+  } @else if (productNotFound()) {
+    <div class="not-found">
+      <p class="eyebrow">We couldn't find that item</p>
+      <h1>Product Not Found</h1>
+      <p>This product may have moved or the link may be incorrect.</p>
+      <a class="add-button" routerLink="/products">Back to Products</a>
+    </div>
+  } @else {
+    <div class="error-state" role="alert">
+      <h1>Could not load this product</h1>
+      <p>{{ errorMessage() }}</p>
+      <button type="button" class="add-button" (click)="retry()">Try Again</button>
+    </div>
+  }
+</section>

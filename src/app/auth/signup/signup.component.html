@@ -1,0 +1,48 @@
+<section class="auth-page">
+  <div class="auth-card">
+    <a class="back-home" routerLink="/">← Angular AI</a>
+    <p class="eyebrow">Join Angular AI</p>
+    <h1>Create your account</h1>
+    <p class="intro">Save your favorites and make checkout easier.</p>
+
+    @if (errorMessage()) {
+      <p class="form-message error" role="alert">{{ errorMessage() }}</p>
+    }
+    @if (successMessage()) {
+      <p class="form-message success" role="status">{{ successMessage() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <label for="full-name">Full name</label>
+      <input id="full-name" type="text" autocomplete="name" formControlName="fullName" />
+      @if (form.controls.fullName.touched && form.controls.fullName.hasError('required')) {
+        <small class="field-error">Enter your name.</small>
+      }
+
+      <label for="signup-email">Email address</label>
+      <input id="signup-email" type="email" autocomplete="email" formControlName="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="field-error">Enter a valid email address.</small>
+      }
+
+      <label for="signup-password">Password</label>
+      <input id="signup-password" type="password" autocomplete="new-password" formControlName="password" />
+      <small class="hint">At least 8 characters, including uppercase, lowercase, and a number.</small>
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <small class="field-error">Choose a stronger password that meets the requirements.</small>
+      }
+
+      <label for="confirm-password">Confirm password</label>
+      <input id="confirm-password" type="password" autocomplete="new-password" formControlName="confirmPassword" />
+      @if (form.controls.confirmPassword.touched && form.hasError('passwordMismatch')) {
+        <small class="field-error">The passwords do not match.</small>
+      }
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Creating account…' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a routerLink="/login">Log in</a></p>
+  </div>
+</section>

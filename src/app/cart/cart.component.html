@@ -1,0 +1,44 @@
+<section class="cart-page">
+  <p class="eyebrow">Your picks</p>
+  <h1>Your Cart</h1>
+  @if (errorMessage()) {
+    <p class="cart-error" role="alert">{{ errorMessage() }}</p>
+  }
+  @if (actionError()) {
+    <p class="cart-error" role="alert">{{ actionError() }}</p>
+  }
+  @if (loading()) {
+    <p class="cart-loading" role="status">Loading your saved cart…</p>
+  } @else if (items().length) {
+    <div class="cart-layout">
+      <div class="cart-items">
+        @for (item of items(); track item.product.id) {
+          <article class="cart-item">
+            <img appImageFallback [src]="item.product.image" [alt]="item.product.name" />
+            <div class="item-info">
+              <h2>{{ item.product.name }}</h2>
+              <div class="quantity-control" [attr.aria-label]="'Quantity for ' + item.product.name">
+                <button type="button" [disabled]="item.quantity <= 1" (click)="changeQuantity(item.product.id, item.quantity - 1)" aria-label="Decrease quantity">−</button>
+                <span>Qty {{ item.quantity }}</span>
+                <button type="button" [disabled]="item.quantity >= item.product.stock" (click)="changeQuantity(item.product.id, item.quantity + 1)" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+            <strong>{{ item.product.price * item.quantity | currency:'USD' }}</strong>
+            <button type="button" (click)="remove(item.product.id)" [attr.aria-label]="'Remove ' + item.product.name">Remove</button>
+          </article>
+        }
+      </div>
+      <aside class="summary">
+        <h2>Order summary</h2>
+        <p><span>Subtotal</span><strong>{{ subtotal() | currency:'USD' }}</strong></p>
+        <small>Shipping and taxes are calculated at checkout.</small>
+        <a class="checkout-link" routerLink="/checkout">Proceed to Checkout</a>
+      </aside>
+    </div>
+  } @else if (!errorMessage()) {
+    <div class="empty-cart">
+      <p>Your cart is waiting for something lovely.</p>
+      <a routerLink="/products">Explore Products</a>
+    </div>
+  }
+</section>

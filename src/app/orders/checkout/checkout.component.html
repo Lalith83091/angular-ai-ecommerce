@@ -1,0 +1,101 @@
+<section class="checkout-page">
+  @if (orderId()) {
+    <div class="confirmation" role="status">
+      <p class="eyebrow">Order received</p>
+      <h1>Thank you for your order!</h1>
+      <p>Your demo order has been saved. Your confirmation number is:</p>
+      <code>{{ orderId() }}</code>
+      <a routerLink="/orders">View My Orders</a>
+    </div>
+  } @else {
+    <p class="eyebrow">Almost there</p>
+    <h1>Demo Checkout</h1>
+    <p class="intro">Enter a shipping address to place this sample order. No payment details are collected.</p>
+
+    @if (errorMessage()) {
+      <p class="form-error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    @if (cartLoading()) {
+      <p class="status-message" role="status">Loading your saved cart…</p>
+    } @else if (items().length) {
+      <div class="checkout-layout">
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <h2>Shipping details</h2>
+          <div class="form-grid">
+            <label>
+              Full name
+              <input type="text" autocomplete="name" formControlName="customerName" />
+              @if (form.controls.customerName.touched && form.controls.customerName.invalid) {
+                <small>Enter a name (up to 120 characters).</small>
+              }
+            </label>
+            <label>
+              Email address
+              <input type="email" autocomplete="email" formControlName="email" />
+              @if (form.controls.email.touched && form.controls.email.invalid) {
+                <small>Enter a valid email address.</small>
+              }
+            </label>
+            <label class="wide">
+              Address line 1
+              <input type="text" autocomplete="address-line1" formControlName="addressLine1" />
+              @if (form.controls.addressLine1.touched && form.controls.addressLine1.invalid) {
+                <small>Enter your street address.</small>
+              }
+            </label>
+            <label class="wide">
+              Address line 2 <span class="optional">(optional)</span>
+              <input type="text" autocomplete="address-line2" formControlName="addressLine2" />
+            </label>
+            <label>
+              City
+              <input type="text" autocomplete="address-level2" formControlName="city" />
+              @if (form.controls.city.touched && form.controls.city.invalid) {
+                <small>Enter your city.</small>
+              }
+            </label>
+            <label>
+              State / region <span class="optional">(optional)</span>
+              <input type="text" autocomplete="address-level1" formControlName="stateRegion" />
+            </label>
+            <label>
+              Postal code
+              <input type="text" autocomplete="postal-code" formControlName="postalCode" />
+              @if (form.controls.postalCode.touched && form.controls.postalCode.invalid) {
+                <small>Enter your postal code.</small>
+              }
+            </label>
+            <label>
+              Country
+              <input type="text" autocomplete="country-name" formControlName="country" />
+              @if (form.controls.country.touched && form.controls.country.invalid) {
+                <small>Enter a country name.</small>
+              }
+            </label>
+          </div>
+          <button type="submit" [disabled]="loading()">
+            {{ loading() ? 'Placing order…' : 'Place Demo Order' }}
+          </button>
+        </form>
+
+        <aside class="summary">
+          <h2>Order summary</h2>
+          @for (item of items(); track item.product.id) {
+            <p class="summary-item">
+              <span>{{ item.product.name }} × {{ item.quantity }}</span>
+              <strong>{{ item.product.price * item.quantity | currency:'USD' }}</strong>
+            </p>
+          }
+          <p class="total"><span>Total</span><strong>{{ subtotal() | currency:'USD' }}</strong></p>
+          <p class="demo-note">Prices and stock are DummyJSON demo data, not verified inventory. This flow does not process payments.</p>
+        </aside>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>Your cart is empty.</p>
+        <a routerLink="/products">Browse products</a>
+      </div>
+    }
+  }
+</section>

@@ -1,0 +1,83 @@
+:host { display: block; }
+.hero {
+  position: relative;
+  display: grid;
+  min-height: min(650px, 76svh);
+  overflow: hidden;
+  place-items: center;
+  padding: 80px 24px;
+  isolation: isolate;
+  background:
+    linear-gradient(90deg, rgb(24 37 97 / 76%), rgb(50 42 130 / 30%)),
+    url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2000&q=85") center 48% / cover,
+    linear-gradient(116deg, #2563d9, #713bd1);
+  color: #fff;
+  text-align: center;
+}
+.hero-content { width: min(850px, 100%); }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 24px;
+  padding: 8px 13px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 9%);
+  color: #e7eaff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #96f2d1; }
+h1 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 76px);
+  font-weight: 750;
+  letter-spacing: -.065em;
+  line-height: 1.08;
+}
+.hero-subtitle {
+  max-width: 620px;
+  margin: 22px auto 30px;
+  color: rgb(245 246 255 / 86%);
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.65;
+}
+.primary-button {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 23px;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(23 24 83 / 20%);
+  color: #3938b9;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgb(23 24 83 / 28%);
+}
+.primary-button span { font-size: 19px; }
+.hero-note {
+  margin: 20px 0 0;
+  color: rgb(245 246 255 / 66%);
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .hero { min-height: 540px; padding: 68px 22px; }
+}
+@media (max-width: 420px) {
+  .hero { min-height: 500px; }
+  .eyebrow { margin-bottom: 20px; font-size: 10px; }
+  .hero-subtitle { margin: 18px auto 25px; }
+}

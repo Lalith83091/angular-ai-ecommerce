@@ -1,0 +1,51 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" routerLink="/" aria-label="Angular AI home" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>Angular <strong>AI</strong></span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="primary-navigation"
+      [attr.aria-label]="menuOpen() ? 'Close navigation menu' : 'Open navigation menu'"
+      (click)="toggleMenu()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="primary-navigation" class="navigation" [class.is-open]="menuOpen()" aria-label="Main navigation">
+      <div class="nav-links">
+        <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active" (click)="closeMenu()">Home</a>
+        <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+        <a routerLink="/services" routerLinkActive="active" (click)="closeMenu()">Services</a>
+        <a routerLink="/products" routerLinkActive="active" (click)="closeMenu()">Products</a>
+        <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a>
+      </div>
+      <div class="nav-actions">
+        @if (user()) {
+          <span class="user-greeting">Hi, {{ userDisplayName() }}</span>
+          <a routerLink="/profile" (click)="closeMenu()">Profile</a>
+          <a routerLink="/orders" (click)="closeMenu()">My Orders</a>
+          <a routerLink="/wishlist" (click)="closeMenu()">
+            Wishlist <span class="wishlist-count">{{ wishlistCount().length }}</span>
+          </a>
+          <button class="logout-button" type="button" [disabled]="signingOut()" (click)="signOut()">
+            {{ signingOut() ? 'Logging out…' : 'Logout' }}
+          </button>
+        } @else {
+          <a class="login-link" routerLink="/login" (click)="closeMenu()">Login</a>
+          <a class="signup-button" routerLink="/signup" (click)="closeMenu()">Sign Up</a>
+        }
+        <a class="cart-button" routerLink="/cart" (click)="closeMenu()" [attr.aria-label]="'Cart, ' + cartCount() + ' items'">
+          Cart <span class="cart-count">{{ cartCount() }}</span>
+        </a>
+      </div>
+      @if (signOutError()) {
+        <p class="signout-error" role="alert">{{ signOutError() }}</p>
+      }
+    </nav>
+  </div>
+</header>

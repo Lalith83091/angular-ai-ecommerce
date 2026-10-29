@@ -1,0 +1,19 @@
+:host { display: block; }
+.collection-section { display: grid; width: min(1120px, calc(100% - 48px)); grid-template-columns: 1.08fr .92fr; align-items: center; gap: clamp(36px, 7vw, 88px); margin: 0 auto; padding: 88px 0; }
+.collection-image { position: relative; min-height: 370px; overflow: hidden; border-radius: 20px; background: #e8eaf2; }
+.collection-image img { position: absolute; width: 100%; height: 100%; object-fit: cover; inset: 0; }
+.image-caption { position: absolute; right: 16px; bottom: 16px; padding: 9px 13px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 8px; background: rgb(25 31 54 / 62%); color: #fff; font-size: 12px; backdrop-filter: blur(8px); }
+.collection-copy .eyebrow { margin: 0 0 14px; color: #554eda; font-size: 12px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.collection-copy h2 { max-width: 470px; margin: 0; color: #1d2740; font-size: clamp(30px, 4vw, 44px); letter-spacing: -.05em; line-height: 1.13; }
+.collection-copy > p:not(.eyebrow) { margin: 19px 0 25px; color: #667089; font-size: 15px; line-height: 1.8; }
+.text-button { display: inline-flex; align-items: center; gap: 12px; color: #4a45d0; font-size: 14px; font-weight: 700; text-decoration: none; }
+.text-button span { font-size: 18px; transition: transform 150ms ease; }
+.text-button:hover span { transform: translateX(4px); }
+@media (max-width: 700px) {
+  .collection-section { width: calc(100% - 40px); grid-template-columns: 1fr; gap: 28px; padding: 62px 0; }
+  .collection-image { min-height: 300px; }
+}
+@media (max-width: 420px) {
+  .collection-section { width: calc(100% - 32px); }
+  .collection-image { min-height: 240px; }
+}

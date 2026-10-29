@@ -1,0 +1,32 @@
+<section class="wishlist-page">
+  <p class="eyebrow">Saved for later</p>
+  <h1>Your Wishlist</h1>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
+  @if (actionError()) {
+    <p class="error-message" role="alert">{{ actionError() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="status-message" role="status">Loading your saved products…</p>
+  } @else if (products().length) {
+    <div class="wishlist-grid">
+      @for (product of products(); track product.id) {
+        <div class="wishlist-item">
+          <app-product-card [product]="product" />
+          <button type="button" class="remove-button" (click)="remove(product.id)">
+            Remove from Wishlist
+          </button>
+        </div>
+      }
+    </div>
+  } @else if (!errorMessage()) {
+    <div class="empty-state">
+      <h2>No saved products yet</h2>
+      <p>Save something you like and it will be waiting here next time.</p>
+      <a routerLink="/products">Explore Products</a>
+    </div>
+  }
+</section>

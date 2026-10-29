@@ -1,0 +1,21 @@
+<main class="product-list">
+  <header class="listing-header">
+    <div>
+      <h1>Our Products</h1>
+      <p>Pick something you love.</p>
+    </div>
+    <p class="cart-count" aria-live="polite">Cart: {{ cartCount }}</p>
+  </header>
+
+  <section class="products" aria-label="Products">
+    @for (product of products; track product.name) {
+      <article class="product-card">
+        <h2>{{ product.name }}</h2>
+        <p class="price">{{ product.price | currency }}</p>
+        <button type="button" (click)="addToCart()">
+          Add to Cart
+        </button>
+      </article>
+    }
+  </section>
+</main>
